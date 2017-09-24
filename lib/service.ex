@@ -1,10 +1,10 @@
 require Poison
 require RedditApi
 require RedditStream
+require ServiceSupervisor
 
 defmodule SummonerAlertsService do
   use Application
-  @sticky_title_contains "simple questions simple answers" 
 
   @moduledoc """
   Documentation for SummonerAlertsService.
@@ -12,31 +12,10 @@ defmodule SummonerAlertsService do
 
   def start() do
     IO.puts "starting"
-    token = RedditApi.get_oauth_token
 
-    get_qa_stickied_thread(token)
-  end
-
-  defp get_sticky_title(thread) do
-    Map.get(thread, "data")
-      |> Map.get("children")
-      |> List.first
-      |> Map.get("data")
-      |> Map.get("title")
-  end
-  defp is_qa_thread(thread) do
-    get_sticky_title(thread)
-      |> String.downcase
-      |> String.contains?(@sticky_title_contains)
-  end
-
-  def get_qa_stickied_thread(token, num \\ 1) do
-    # TODO: Move "sticky monitoring" to a new process/agent/genserver (not sure)
-    sub = 'summonerschool'
-    thread = RedditApi.get_stickied_thread(token, sub, num)
-
-    # TODO: Do something with the "thread" result (i.e. start processing it in another process)
-    if is_qa_thread(thread), do: IO.puts("got QA thread"), else: get_qa_stickied_thread(token, 2)
+    ServiceSupervisor.start_link([])
+    :timer.sleep(1000)
+    :timer.sleep(10000)
   end
 
   def process do
