@@ -38,7 +38,7 @@ defmodule StickyServer do
     {:noreply, thread_id}
   end
 
-  def handle_cast({ :update, thread_id }, _) do
+  def handle_cast({:update, thread_id}, _) do
     {:noreply, thread_id}
   end
 

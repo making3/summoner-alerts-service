@@ -1,6 +1,5 @@
 require Poison
 require HTTPotion
-require RedditUriHelper
 
 # Big thanks to http://learningelixir.joekain.com/fetching-reddit-posts-from-elixir/
 defmodule RedditApi do
@@ -12,28 +11,26 @@ defmodule RedditApi do
   end
 
   def get_stickied_thread(token, subreddit, num) do
-    location = request({:uri, "/r/#{subreddit}/about/sticky"}, token, [ num: num ])
+    location = request({:uri, "/r/#{subreddit}/about/sticky"}, token, [num: num])
       |> Map.get(:headers)
       |> Map.get(:hdrs)
       |> Map.get("location")
 
-    request({ :url, location }, token)
+    request({:url, location}, token)
       |> Map.get(:body)
       |> Poison.decode
       |> get_thread_from_result
   end
 
   def get_new_threads(token, subreddit, opts \\ []) do
-    uri = RedditUriHelper.get_new_threads(subreddit)
-    request({ :uri, uri }, token, opts)
+    request({:uri, "/r/#{subreddit}/new"}, token, opts)
       |> Map.get(:body)
       |> get_request_body
   end
 
   def get_comments(token, subreddit, thread_id) do
-    uri = RedditUriHelper.get_thread_comments(subreddit, thread_id)
     # TODO: Remove limit, or find a way to process more than the limit (I'm sure there is a max..limit)
-    request({:uri, uri }, token, [ limit: 100 ])
+    request({:uri, "/r/#{subreddit}/comments/#{thread_id}"}, token, [limit: 100])
       |> Map.get(:body)
       |> get_request_body
   end
@@ -95,5 +92,5 @@ defmodule RedditApi do
   end
 
   defp ok({:ok, result}), do: result
-  defp get_thread_from_result({:ok, [ thread, _ ] }), do: thread
+  defp get_thread_from_result({:ok, [thread, _]}), do: thread
 end

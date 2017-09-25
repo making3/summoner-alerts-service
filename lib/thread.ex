@@ -30,7 +30,6 @@ defmodule Thread do
   end
 
   def is_qa(thread) do
-    IO.inspect title(thread)
     title(thread)
       |> String.downcase
       |> String.contains?(@sticky_title_contains)

@@ -11,7 +11,6 @@ defmodule SummonerAlertsService.Mixfile do
     ]
   end
 
-  # Run "mix help compile.app" to learn about applications.
   def application do
     [
       mod: {SummonerAlertsService, []},
@@ -20,7 +19,6 @@ defmodule SummonerAlertsService.Mixfile do
     ]
   end
 
-  # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
       {:httpotion, "~> 3.0.2"},

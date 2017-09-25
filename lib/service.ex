@@ -21,6 +21,7 @@ defmodule SummonerAlertsService do
     start()
   end
 
+  # TODO: Move this out
   def process do
     sub = 'learnprogramming/new'
     token = RedditApi.get_oauth_token
