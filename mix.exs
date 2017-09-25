@@ -1,9 +1,9 @@
-defmodule SummonerAlertsService.Mixfile do
+defmodule SummonerAlerts.Mixfile do
   use Mix.Project
 
   def project do
     [
-      app: :service,
+      app: :summoner_alerts,
       version: "0.0.1",
       elixir: "~> 1.5",
       start_permanent: Mix.env == :prod,
@@ -13,7 +13,7 @@ defmodule SummonerAlertsService.Mixfile do
 
   def application do
     [
-      mod: {SummonerAlertsService, []},
+      mod: {SummonerAlerts, []},
       applications: [:httpotion],
       extra_applications: [:logger]
     ]

@@ -1,8 +1,8 @@
-defmodule SummonerAlertsServiceTest do
+defmodule SummonerAlertsTest do
   use ExUnit.Case
-  doctest SummonerAlertsService
+  doctest SummonerAlerts
 
   test "greets the world" do
-    assert SummonerAlertsService.hello() == :world
+    assert SummonerAlerts.hello() == :world
   end
 end

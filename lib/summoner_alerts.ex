@@ -3,22 +3,18 @@ require RedditApi
 require RedditStream
 require ServiceSupervisor
 
-defmodule SummonerAlertsService do
+defmodule SummonerAlerts do
   use Application
 
   @moduledoc """
-  Documentation for SummonerAlertsService.
+  Documentation for SummonerAlerts.
   """
 
-  def start() do
+  def start(_, _) do
     IO.puts "starting"
 
     ServiceSupervisor.start_link(name: ServiceSupervisor)
     # TODO: Application exits when running "mix run". Not sure how to resolve (newbie things)
-  end
-
-  def start(_, _) do
-    start()
   end
 
   # TODO: Move this out

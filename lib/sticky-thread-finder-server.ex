@@ -18,7 +18,6 @@ defmodule StickyThreadFinderServer do
   def handle_info(:work, state) do
     # TODO: Find the newest summoner school thread.
     # TODO: Save this to a database table (Thread: { threadId, title })
-    #
     token = RedditApi.get_oauth_token
     get_stickied_thread token
     {:noreply, state}
