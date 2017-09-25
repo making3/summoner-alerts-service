@@ -28,12 +28,11 @@ defmodule StickyServer do
   end
 
   def handle_info(:work, thread_id) do
-
     token = RedditApi.get_oauth_token
     comments = RedditApi.get_comments(token, @summonerschool, thread_id)
 
     # TODO: Parse comments in thread
-    IO.inspect(comments)
+    # IO.inspect(comments)
 
     schedule_work()
     {:noreply, thread_id}

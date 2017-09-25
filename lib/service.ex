@@ -13,9 +13,12 @@ defmodule SummonerAlertsService do
   def start() do
     IO.puts "starting"
 
-    ServiceSupervisor.start_link([])
-    :timer.sleep(1000)
-    :timer.sleep(10000)
+    ServiceSupervisor.start_link(name: ServiceSupervisor)
+    # TODO: Application exits when running "mix run". Not sure how to resolve (newbie things)
+  end
+
+  def start(_, _) do
+    start()
   end
 
   def process do

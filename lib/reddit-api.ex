@@ -41,7 +41,7 @@ defmodule RedditApi do
   defp request_oauth_token do
     cfg = get_config()
     headers = get_auth_headers(cfg)
-    HTTPotion.post("https://www.reddit.com/api/v1/access_token", headers)
+    HTTPotion.post!("https://www.reddit.com/api/v1/access_token", headers)
   end
 
   defp get_config do
