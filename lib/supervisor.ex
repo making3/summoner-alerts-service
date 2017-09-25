@@ -12,7 +12,6 @@ defmodule ServiceSupervisor do
     children = [
       {StickyServer, name: StickyServer},
       {StickyThreadFinderServer, name: StickyThreadFinderServer},
-      SummonerAlerts.Repo
     ]
 
     Supervisor.init(children, strategy: :one_for_one)
