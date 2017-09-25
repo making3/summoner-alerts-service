@@ -22,7 +22,9 @@ defmodule SummonerAlertsService.Mixfile do
   defp deps do
     [
       {:httpotion, "~> 3.0.2"},
-      {:poison, "~> 3.1"}
+      {:poison, "~> 3.1"},
+      {:postgrex, ">= 0.0.0"},
+      {:ecto, "~> 2.1"}
     ]
   end
 end
