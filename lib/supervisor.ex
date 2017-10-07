@@ -1,17 +1,17 @@
-require StickyServer
-require StickyThreadFinderServer
+require SummonerAlertsService.StickyServer
+require SummonerAlertsService.StickyThreadFinderServer
 
-defmodule ServiceSupervisor do
+defmodule SummonerAlertsService.Supervisor do
   use Supervisor
-  
+
   def start_link(opts) do
     Supervisor.start_link(__MODULE__, :ok, opts)
   end
 
   def init(:ok) do
     children = [
-      {StickyServer, name: StickyServer},
-      {StickyThreadFinderServer, name: StickyThreadFinderServer},
+      {SummonerAlertsService.StickyServer, name: StickyServer},
+      {SummonerAlertsService.StickyThreadFinderServer, name: StickyThreadFinderServer},
     ]
 
     Supervisor.init(children, strategy: :one_for_one)

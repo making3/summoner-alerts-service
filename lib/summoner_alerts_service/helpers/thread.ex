@@ -11,8 +11,8 @@
 # url (permalink seems better)
 # stickied
 
-defmodule Thread do
-  @sticky_title_contains "simple questions simple answers" 
+defmodule SummonerAlertsService.Helpers.Thread do
+  @sticky_title_contains "simple questions simple answers"
 
   def parse(sticky_response) do
     Map.get(sticky_response, "data")

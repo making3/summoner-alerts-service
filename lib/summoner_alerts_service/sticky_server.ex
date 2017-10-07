@@ -1,8 +1,8 @@
-require RedditApi
+require ExReddit
 
-defmodule StickyServer do
+defmodule SummonerAlertsService.StickyServer do
   use GenServer
-  @summonerschool "summonerschool" 
+  @summonerschool "summonerschool"
 
   ## Client implementation
   def start_link(opts) do
@@ -28,8 +28,8 @@ defmodule StickyServer do
   end
 
   def handle_info(:work, thread_id) do
-    token = RedditApi.get_oauth_token
-    comments = RedditApi.get_comments(token, @summonerschool, thread_id)
+    token = ExReddit.OAuth.get_token!()
+    # comments = RedditApi.get_comments(token, @summonerschool, thread_id)
 
     # TODO: Parse comments in thread
     # IO.inspect(comments)

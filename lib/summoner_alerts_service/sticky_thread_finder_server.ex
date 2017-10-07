@@ -1,7 +1,7 @@
-require RedditApi
-require Thread
+require ExReddit
+require SummonerAlertsService.Helpers.Thread
 
-defmodule StickyThreadFinderServer do
+defmodule SummonerAlertsService.StickyThreadFinderServer do
   use GenServer
 
   ## Client
@@ -18,7 +18,7 @@ defmodule StickyThreadFinderServer do
   def handle_info(:work, state) do
     # TODO: Find the newest summoner school thread.
     # TODO: Save this to a database table (Thread: { threadId, title })
-    token = RedditApi.get_oauth_token
+    token = ExReddit.OAuth.get_token!()
     get_stickied_thread token
     {:noreply, state}
   end
@@ -29,17 +29,17 @@ defmodule StickyThreadFinderServer do
 
   def get_stickied_thread(token, num \\ 1) do
     sub = "summonerschool"
-    thread = RedditApi.get_stickied_thread(token, sub, num)
-      |> Thread.parse
-
-    if Thread.is_qa(thread) do
-      thread_id = Thread.id(thread)
-      StickyServer.update(StickyServer, thread_id)
-    else 
-      if num == 1 do
-        get_stickied_thread(token, 2)
-      end
-    end
+    # thread = RedditApi.get_stickied_thread(token, sub, num)
+    #   |> Thread.parse
+    #
+    # if Thread.is_qa(thread) do
+    #   thread_id = Thread.id(thread)
+    #   StickyServer.update(StickyServer, thread_id)
+    # else
+    #   if num == 1 do
+    #     get_stickied_thread(token, 2)
+    #   end
+    # end
 
     schedule_work();
   end

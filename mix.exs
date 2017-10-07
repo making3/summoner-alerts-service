@@ -1,9 +1,9 @@
-defmodule SummonerAlerts.Mixfile do
+defmodule SummonerAlertsService.Mixfile do
   use Mix.Project
 
   def project do
     [
-      app: :summoner_alerts,
+      app: :summoner_alerts_service,
       version: "0.0.1",
       elixir: "~> 1.5",
       start_permanent: Mix.env == :prod,
@@ -13,8 +13,8 @@ defmodule SummonerAlerts.Mixfile do
 
   def application do
     [
-      mod: {SummonerAlerts, []},
-      applications: [:httpotion, :ecto, :postgrex],
+      # mod: {SummonerAlertsService, []},
+      applications: [:httpotion, :ecto, :postgrex, :exreddit],
       extra_applications: [:logger]
     ]
   end
@@ -24,7 +24,8 @@ defmodule SummonerAlerts.Mixfile do
       {:httpotion, "~> 3.0.2"},
       {:poison, "~> 3.1"},
       {:postgrex, ">= 0.0.0"},
-      {:ecto, "~> 2.1"}
+      {:ecto, "~> 2.1"},
+      {:exreddit_tagger, git: "https://github.com/making3/exreddit_tagger.git", branch: "master"}
     ]
   end
 end
