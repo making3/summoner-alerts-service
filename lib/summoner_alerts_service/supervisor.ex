@@ -1,6 +1,3 @@
-require SummonerAlertsService.StickyServer
-require SummonerAlertsService.StickyThreadFinderServer
-
 defmodule SummonerAlertsService.Supervisor do
   use Supervisor
 

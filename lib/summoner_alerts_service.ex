@@ -1,5 +1,4 @@
 require Poison
-# require ServiceSupervisor
 require ExReddit
 require ExRedditTagger
 
@@ -11,19 +10,11 @@ defmodule SummonerAlertsService do
   """
 
   def start(_, _) do
-    # import Supervisor.Spec
-    # IO.puts "starting"
-    # #ServiceSupervisor.start_link(name: ServiceSupervisor)
-    #
-    # children = [
-    #   SummonerAlerts.Repo
-    # ]
-    # opts = [strategy: :one_for_one, name: SummonerAlerts.Supervisor]
-    # Supervisor.start_link(children, opts)
-    # TODO: Application exits when running "mix run". Not sure how to resolve (newbie things)
+    IO.puts "starting"
+    SummonerAlertsService.Supervisor.start_link(name: ServiceSupervisor)
   end
 
-  # TODO: Move this out
+  # TODO: Move this to a worker.
   def process do
     {:ok, token} = ExReddit.OAuth.get_token()
 

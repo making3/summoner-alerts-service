@@ -16,6 +16,7 @@ defmodule SummonerAlertsService.StickyServer do
   ## Server implementation
   def init(:ok) do
     schedule_work()
+    IO.puts "starting sticky server"
 
     # TODO: Get state from db on load
     # TODO: Get/Store oauth token here. Let server crash after token expires maybe?
@@ -29,10 +30,10 @@ defmodule SummonerAlertsService.StickyServer do
 
   def handle_info(:work, thread_id) do
     token = ExReddit.OAuth.get_token!()
-    # comments = RedditApi.get_comments(token, @summonerschool, thread_id)
+    comments = ExReddit.Api.Subreddit.get_comments(token, @summonerschool, thread_id)
 
     # TODO: Parse comments in thread
-    # IO.inspect(comments)
+    IO.inspect(comments)
 
     schedule_work()
     {:noreply, thread_id}

@@ -1,5 +1,4 @@
 require ExReddit
-require SummonerAlertsService.Helpers.Thread
 
 defmodule SummonerAlertsService.StickyThreadFinderServer do
   use GenServer
@@ -29,18 +28,18 @@ defmodule SummonerAlertsService.StickyThreadFinderServer do
 
   def get_stickied_thread(token, num \\ 1) do
     sub = "summonerschool"
-    # thread = RedditApi.get_stickied_thread(token, sub, num)
-    #   |> Thread.parse
-    #
-    # if Thread.is_qa(thread) do
-    #   thread_id = Thread.id(thread)
-    #   StickyServer.update(StickyServer, thread_id)
-    # else
-    #   if num == 1 do
-    #     get_stickied_thread(token, 2)
-    #   end
-    # end
+    {:ok, thread} = ExReddit.Api.Subreddit.get_sticky(token, sub, num)
+    thread_link = SummonerAlertsService.Helpers.Thread.get_link(thread)
 
-    schedule_work();
+    if SummonerAlertsService.Helpers.Thread.is_qa(thread_link) do
+      thread_id = SummonerAlertsService.Helpers.Thread.get_id(thread_link)
+      SummonerAlertsService.StickyServer.update(StickyServer, thread_id)
+    else
+      if num == 1 do
+        get_stickied_thread(token, 2)
+      end
+    end
+
+    schedule_work()
   end
 end

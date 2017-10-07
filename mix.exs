@@ -13,7 +13,7 @@ defmodule SummonerAlertsService.Mixfile do
 
   def application do
     [
-      # mod: {SummonerAlertsService, []},
+      mod: {SummonerAlertsService, []},
       applications: [:httpotion, :ecto, :postgrex, :exreddit],
       extra_applications: [:logger]
     ]
