@@ -1,42 +1,57 @@
 defmodule SummonerAlertsService.Servers.Subreddit do
   use GenServer
 
-  ## Client implementation
-  def start_link(subreddit) do
+  # Client implementation
+  def start_link({subreddit, users, tags}) do
     # TODO: How to get options and pass them to start_link (i.e. name it)
-    GenServer.start_link(__MODULE__, subreddit)
+    server = get_subreddit_atom(subreddit)
+    SAS.Tags.Server.add(subreddit, users, tags)
+    GenServer.start_link(__MODULE__, subreddit, name: server)
   end
 
-  def add_tags(server, user, tags) do
-    GenServer.cast(server, {:add_tags, {user, tags}})
+  def add_tags(subreddit, user, tags) do
+    server = get_subreddit_atom(subreddit)
+    SAS.Tags.Server.add(subreddit, user, tags)
+    GenServer.call(server, {:kill})
   end
 
-  ## Server implementation
+  defp get_subreddit_atom(subreddit) do
+    :"#{subreddit}"
+  end
+
+  # Server implementation
   def init(subreddit) do
     IO.puts "starting r/#{subreddit} tag stream"
 
-    # TODO: Get tags from database
-    user_tags = %{"yeamanz" => ["why", "what"]}
+    user_tags = SAS.Tags.Server.get(subreddit)
     pid = start_stream(subreddit, user_tags)
-    state = {subreddit, pid, user_tags}
-    {:ok, state}
+    {:ok, {subreddit, pid}}
   end
 
-  def handle_cast({:add_tags, user, tags}, {subreddit, user_tags}) do
-    new_user_tags = Map.put(user_tags, user, tags)
-    {:noreply, {subreddit, new_user_tags}}
+  def handle_info(:kill, {subreddit, pid}) do
+    Process.exit(pid, :kill)
+    {:stop, :normal, {subreddit, pid}}
   end
 
-  def start_stream(subreddit, user_tags) do
+  defp start_stream(subreddit, user_tags) do
+    tags = get_tags(user_tags)
+
     spawn_link fn ->
       {:ok, token} = ExReddit.OAuth.get_token()
       ExRedditTagger.get_new_thread_tags(
         subreddit,
         token,
-        Map.get(user_tags, "yeamanz"), # TODO: Compile list
+        tags,
         true)
       |> Stream.map(&IO.inspect(&1)) # TODO: Tie results to users of course
       |> Stream.run()
     end
+  end
+
+  defp get_tags(user_tags) do
+    user_tags
+    |> Map.values
+    |> List.flatten
+    |> Enum.uniq
   end
 end
