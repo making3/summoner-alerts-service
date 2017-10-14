@@ -15,7 +15,7 @@ defmodule SAS.Tags.Server do
   end
 
   defp via_tuple(subreddit) do
-    {:via, SAS.Tags.Registry, {:subreddit, subreddit}}
+    {:via, :gproc, {:n, :l, {:subreddit_tag, subreddit}}}
   end
 
   # Server
