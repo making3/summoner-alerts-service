@@ -32,7 +32,7 @@ defmodule SummonerAlertsService.StickyThreadFinderServer do
     {:ok, thread} = ExReddit.Api.Subreddit.get_sticky(token, sub, num)
     thread_link = Thread.get_link(thread)
 
-    if SummonerAlertsService.Helpers.Thread.is_qa(thread_link) do
+    if Thread.is_qa(thread_link) do
       thread_id = Thread.get_id(thread_link)
       SummonerAlertsService.StickyServer.update(StickyServer, thread_id)
     else
