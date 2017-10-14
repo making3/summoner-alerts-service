@@ -12,18 +12,17 @@ defmodule SummonerAlertsService do
   def start(_, _) do
     IO.puts "starting"
     SummonerAlertsService.Supervisor.start_link(name: ServiceSupervisor)
-  end
 
-  # TODO: Move this to a worker.
-  def process do
-    {:ok, token} = ExReddit.OAuth.get_token()
+    subreddit = "askreddit"
+    SAS.Subreddit.Supervisor.add_subreddit(subreddit)
 
-    sub = "learnprogramming"
-    tags = ["array", "list", "method", "scanf", "class", "api", "post"]
-    return_only_matches = true # defaults to false
+    SAS.Tags.Server.add_user_tags(subreddit, "matt", ["who"])
 
-    ExRedditTagger.get_new_thread_tags(sub, token, tags, return_only_matches)
-    |> Stream.map(&IO.inspect(&1))
-    |> Stream.run()
+    :timer.sleep(120000)
+
+    IO.puts("adding more tags")
+    SAS.Tags.Server.add_user_tags(subreddit, "matt", ["why", "what", "who"])
+
+    :timer.sleep(1000000)
   end
 end

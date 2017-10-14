@@ -6,7 +6,7 @@ defmodule SAS.Tags.Server do
     GenServer.start_link(__MODULE__, [], name: via_tuple(subreddit))
   end
 
-  def add(subreddit, user, tags) do
+  def add_user_tags(subreddit, user, tags) do
     GenServer.cast(via_tuple(subreddit), {:add, user, tags})
   end
 
@@ -28,6 +28,11 @@ defmodule SAS.Tags.Server do
   end
 
   def handle_cast({:add, user, tags}, user_tags) do
-    {:noreply, Map.put(user_tags, user, tags)}
+    case Map.has_key?(user_tags, user) do
+      true ->
+        {:noreply, Map.replace(user_tags, user, tags)}
+      _ ->
+        {:noreply, Map.put(user_tags, user, tags)}
+    end
   end
 end
