@@ -7,6 +7,7 @@ defmodule SummonerAlertsService.Supervisor do
 
   def init(_) do
     children = [
+      SAS.Tags.Supervisor
       # {SummonerAlertsService.StickyServer, name: StickyServer},
       # {SummonerAlertsService.StickyThreadFinderServer, name: StickyThreadFinderServer},
       # SummonerAlertsService.SubredditSupervisor

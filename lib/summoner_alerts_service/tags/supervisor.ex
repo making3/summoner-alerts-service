@@ -1,7 +1,7 @@
 defmodule SAS.Tags.Supervisor do
   use Supervisor
 
-  def start_link do
+  def start_link(_) do
     Supervisor.start_link(__MODULE__, :ok, name: :subreddit_supervisor)
   end
 

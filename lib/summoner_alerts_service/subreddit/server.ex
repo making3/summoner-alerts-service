@@ -1,22 +1,21 @@
-defmodule SummonerAlertsService.Servers.Subreddit do
+defmodule SAS.Subreddit.Server do
   use GenServer
 
   # Client implementation
-  def start_link({subreddit, users, tags}) do
-    # TODO: How to get options and pass them to start_link (i.e. name it)
-    server = get_subreddit_atom(subreddit)
-    SAS.Tags.Server.add(subreddit, users, tags)
-    GenServer.start_link(__MODULE__, subreddit, name: server)
+  def start_link({subreddit, user, tags}) do
+    SAS.Tags.Supervisor.add(subreddit)
+    SAS.Tags.Server.add(subreddit, user, tags)
+
+    GenServer.start_link(__MODULE__, subreddit, name: via_tuple(subreddit))
   end
 
   def add_tags(subreddit, user, tags) do
-    server = get_subreddit_atom(subreddit)
     SAS.Tags.Server.add(subreddit, user, tags)
-    GenServer.call(server, {:kill})
+    GenServer.call(via_tuple(subreddit), {:kill})
   end
 
-  defp get_subreddit_atom(subreddit) do
-    :"#{subreddit}"
+  defp via_tuple(subreddit) do
+    {:via, :gproc, {:n, :l, {:subreddit, subreddit}}}
   end
 
   # Server implementation
