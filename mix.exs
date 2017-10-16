@@ -14,7 +14,7 @@ defmodule SummonerAlertsService.Mixfile do
   def application do
     [
       mod: {SummonerAlertsService, []},
-      applications: [:httpotion, :ecto, :postgrex, :exreddit],
+      applications: [:httpotion, :ecto, :postgrex, :exreddit, :gproc],
       extra_applications: [:logger]
     ]
   end
@@ -25,7 +25,8 @@ defmodule SummonerAlertsService.Mixfile do
       {:poison, "~> 3.1"},
       {:postgrex, ">= 0.0.0"},
       {:ecto, "~> 2.1"},
-      {:exreddit_tagger, git: "https://github.com/making3/exreddit_tagger.git", branch: "master"}
+      {:exreddit_tagger, git: "https://github.com/making3/exreddit_tagger.git", branch: "master"},
+      {:gproc, "0.3.1"}
     ]
   end
 end
