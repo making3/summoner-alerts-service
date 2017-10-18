@@ -17,7 +17,14 @@ defmodule SAS.Subreddit.Server do
     IO.puts "starting r/#{subreddit} tag stream"
 
     pid = start_stream(subreddit)
+    Process.monitor(pid)
     {:ok, {subreddit, pid}}
+  end
+
+  def handle_info({:DOWN, _ref, :process, _pid, _reason}, {subreddit, _}) do
+    pid = start_stream(subreddit)
+    Process.monitor(pid)
+    {:noreply, {subreddit, pid}}
   end
 
   defp start_stream(subreddit) do
@@ -37,7 +44,6 @@ defmodule SAS.Subreddit.Server do
     tags = subreddit
     |> SAS.Tags.Server.get()
     |> get_unique_tags()
-    IO.inspect(Map.get(thread, "title"))
 
     found_tags = parse_tags(thread, tags)
     {Map.get(thread, "id"), found_tags}
