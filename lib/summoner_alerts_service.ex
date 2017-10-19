@@ -18,7 +18,7 @@ defmodule SummonerAlertsService do
 
     SAS.Tags.Server.add_user_tags(subreddit, "matt", ["who"])
 
-    :timer.sleep(120000)
+    :timer.sleep(20000)
 
     IO.puts("adding more tags")
     SAS.Tags.Server.add_user_tags(subreddit, "matt", ["why", "what", "who"])
