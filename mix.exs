@@ -1,4 +1,4 @@
-defmodule SummonerAlertsService.Mixfile do
+defmodule SAS.Mixfile do
   use Mix.Project
 
   def project do
@@ -13,7 +13,7 @@ defmodule SummonerAlertsService.Mixfile do
 
   def application do
     [
-      mod: {SummonerAlertsService, []},
+      mod: {SAS, []},
       applications: [:httpotion, :ecto, :postgrex, :exreddit, :gproc],
       extra_applications: [:logger]
     ]

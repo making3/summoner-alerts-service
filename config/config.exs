@@ -2,7 +2,7 @@
 # and its dependencies with the aid of the Mix.Config module.
 use Mix.Config
 
-config :summoner_alerts_service, SummonerAlertsService.Repo,
+config :summoner_alerts_service, SAS.Repo,
   adapter: Ecto.Adapters.Postgres,
   database: "summoner_alerts",
   username: "summoner_service",

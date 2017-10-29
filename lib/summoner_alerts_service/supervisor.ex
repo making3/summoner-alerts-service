@@ -1,4 +1,4 @@
-defmodule SummonerAlertsService.Supervisor do
+defmodule SAS.Supervisor do
   use Supervisor
 
   def start_link(opts) do
@@ -9,8 +9,8 @@ defmodule SummonerAlertsService.Supervisor do
     children = [
       SAS.Tags.Supervisor,
       SAS.Subreddit.Supervisor
-      # {SummonerAlertsService.StickyServer, name: StickyServer},
-      # {SummonerAlertsService.StickyThreadFinderServer, name: StickyThreadFinderServer},
+      # {SAS.StickyServer, name: StickyServer},
+      # {SAS.StickyThreadFinderServer, name: StickyThreadFinderServer},
     ]
     Supervisor.init(children, strategy: :one_for_one)
   end

@@ -11,7 +11,7 @@
 # url (permalink seems better)
 # stickied
 
-defmodule SummonerAlertsService.Helpers.Thread do
+defmodule SAS.Helpers.Thread do
   @sticky_title_contains "simple questions simple answers"
 
   def get_link(sticky_response) do

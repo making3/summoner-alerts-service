@@ -1,6 +1,6 @@
 require ExReddit
 
-defmodule SummonerAlertsService.StickyServer do
+defmodule SAS.StickyServer do
   use GenServer
   @summonerschool "summonerschool"
 

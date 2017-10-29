@@ -35,9 +35,15 @@ defmodule SAS.Subreddit.Server do
       |> Stream.map(&(Map.get(&1, "data")))
       |> Stream.map(&(parse_thread(&1, subreddit)))
       |> Stream.filter(&should_return_match(&1))
-      |> Stream.map(&IO.inspect(&1)) # TODO: Tie results to users of course
+      # |> Stream.map(&IO.inspect(&1)) # TODO: Tie results to users of course
+      |> Stream.map(&save_result(&1))
       |> Stream.run()
     end
+  end
+
+  defp save_result({thread, tags}) do
+    # TODO: Save results
+    thread
   end
 
   defp parse_thread(thread, subreddit) do
@@ -46,7 +52,7 @@ defmodule SAS.Subreddit.Server do
     |> get_unique_tags()
 
     found_tags = parse_tags(thread, tags)
-    {Map.get(thread, "id"), found_tags}
+    {thread, found_tags}
   end
 
   defp parse_tags(thread, tags) do

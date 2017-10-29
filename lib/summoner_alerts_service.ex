@@ -2,7 +2,7 @@ require Poison
 require ExReddit
 require ExRedditTagger
 
-defmodule SummonerAlertsService do
+defmodule SAS do
   use Application
 
   @moduledoc """
@@ -11,7 +11,7 @@ defmodule SummonerAlertsService do
 
   def start(_, _) do
     IO.puts "starting"
-    SummonerAlertsService.Supervisor.start_link(name: ServiceSupervisor)
+    SAS.Supervisor.start_link(name: ServiceSupervisor)
 
     subreddit = "askreddit"
     SAS.Subreddit.Supervisor.add_subreddit(subreddit)

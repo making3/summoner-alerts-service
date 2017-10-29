@@ -1,4 +1,4 @@
-defmodule SummonerAlertsService.Thread do
+defmodule SAS.Thread do
   use Ecto.Schema
 
   schema "threads" do

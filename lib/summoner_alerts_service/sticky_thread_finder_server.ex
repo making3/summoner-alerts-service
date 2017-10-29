@@ -1,7 +1,7 @@
 require ExReddit
-alias SummonerAlertsService.Helpers.Thread, as: Thread
+alias SAS.Helpers.Thread, as: Thread
 
-defmodule SummonerAlertsService.StickyThreadFinderServer do
+defmodule SAS.StickyThreadFinderServer do
   use GenServer
 
   ## Client
@@ -34,7 +34,7 @@ defmodule SummonerAlertsService.StickyThreadFinderServer do
 
     if Thread.is_qa(thread_link) do
       thread_id = Thread.get_id(thread_link)
-      SummonerAlertsService.StickyServer.update(StickyServer, thread_id)
+      SAS.StickyServer.update(StickyServer, thread_id)
     else
       if num == 1 do
         get_stickied_thread(token, 2)
