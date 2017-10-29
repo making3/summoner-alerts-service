@@ -19,4 +19,6 @@ config :exreddit,
 
 
 config :exreddit_tagger,
-  fetch_timeout: 1000
+  fetch_timeout: 1000,
+  initial_threads_to_fetch: 25,
+  threads_to_fetch: 2
