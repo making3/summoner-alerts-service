@@ -3,7 +3,7 @@ defmodule SAS.Repo.Migrations.UniqueTitle do
 
   def change do
     alter table(:threads) do
-      modify :title, :string, unique: true, size: 300
+      modify :thread_id, :string, unique: true
     end
   end
 end
