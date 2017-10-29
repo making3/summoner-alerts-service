@@ -9,7 +9,7 @@ config :summoner_alerts_service, SAS.Repo,
   password: "dev_password",
   hostname: "localhost"
 
-config :summoner_alerts_service, ecto_repos: [SummonerAlertsService.Repo]
+config :summoner_alerts_service, ecto_repos: [SAS.Repo]
 
 config :exreddit,
   username: System.get_env("REDDIT_USER"),

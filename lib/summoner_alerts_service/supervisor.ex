@@ -8,7 +8,8 @@ defmodule SAS.Supervisor do
   def init(_) do
     children = [
       SAS.Tags.Supervisor,
-      SAS.Subreddit.Supervisor
+      SAS.Subreddit.Supervisor,
+      SAS.Repo
       # {SAS.StickyServer, name: StickyServer},
       # {SAS.StickyThreadFinderServer, name: StickyThreadFinderServer},
     ]
