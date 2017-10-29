@@ -35,15 +35,29 @@ defmodule SAS.Subreddit.Server do
       |> Stream.map(&(Map.get(&1, "data")))
       |> Stream.map(&(parse_thread(&1, subreddit)))
       |> Stream.filter(&should_return_match(&1))
-      # |> Stream.map(&IO.inspect(&1)) # TODO: Tie results to users of course
       |> Stream.map(&save_result(&1))
       |> Stream.run()
     end
   end
 
-  defp save_result({thread, tags}) do
-    # TODO: Save results
-    thread
+  defp save_result({thread, _tags}) do
+    created_datetime = thread
+    |> Map.get("created_utc")
+    |> round()
+    |> DateTime.from_unix!(:millisecond)
+    |> Ecto.DateTime.cast!()
+
+    sas_thread = %SAS.Thread{
+      title: Map.get(thread, "title"),
+      permalink: Map.get(thread, "permalink"),
+      created_utc: created_datetime,
+      thread_id: Map.get(thread, "id")
+    }
+
+    # TODO: Don't insert if it already exists
+    SAS.Repo.insert!(sas_thread)
+
+    # TODO: Save ThreadTags stuff
   end
 
   defp parse_thread(thread, subreddit) do
