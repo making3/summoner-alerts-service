@@ -40,7 +40,7 @@ defmodule SAS.Subreddit.Server do
     end
   end
 
-  defp save_result({thread, _tags}) do
+  defp save_result({thread, tags}) do
     created_datetime = thread
     |> Map.get("created_utc")
     |> round()
@@ -51,22 +51,25 @@ defmodule SAS.Subreddit.Server do
       title: Map.get(thread, "title"),
       permalink: Map.get(thread, "permalink"),
       created_utc: created_datetime,
-      thread_id: Map.get(thread, "id")
+      thread_id: Map.get(thread, "id"),
+      tags: tags
     }
 
     # TODO: Don't insert if it already exists
     SAS.Repo.insert!(sas_thread)
-
-    # TODO: Save ThreadTags stuff
   end
 
   defp parse_thread(thread, subreddit) do
-    tags = subreddit
-    |> SAS.Tags.Server.get()
-    |> get_unique_tags()
+    tags = SAS.Tags.Server.get(subreddit)
+    |> Map.values()
+    |> List.flatten()
 
-    found_tags = parse_tags(thread, tags)
-    {thread, found_tags}
+    unique_tag_names = get_unique_tags(tags)
+
+    result_tags = parse_tags(thread, unique_tag_names)
+    |> MapSet.new()
+    |> get_group_tags_from_unique(tags)
+    {thread, result_tags}
   end
 
   defp parse_tags(thread, tags) do
@@ -86,10 +89,15 @@ defmodule SAS.Subreddit.Server do
   defp should_return_match({_, []}), do: false
   defp should_return_match({_, _}), do: true
 
-  defp get_unique_tags(user_tags) do
-    user_tags
-    |> Map.values
-    |> List.flatten
-    |> Enum.uniq
+  defp get_unique_tags(tags) do
+    tags
+    |> Enum.map(fn tag -> tag.name end)
+    |> MapSet.new()
+  end
+
+  defp get_group_tags_from_unique(found_tags, tags) do
+    Enum.filter(tags, fn tag ->
+      MapSet.member?(found_tags, tag.name)
+    end)
   end
 end

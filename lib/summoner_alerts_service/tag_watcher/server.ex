@@ -32,9 +32,7 @@ defmodule SAS.TagWatcher.Server do
     schedule_work()
   end
   defp do_work([head | tail]) do
-    tags = Enum.map(head.tags, fn t -> t.name end)
-    SAS.Tags.Server.add_grou_tags(@subreddit, head.name, tags)
-
+    SAS.Tags.Server.add_group_tags(@subreddit, head.name, head.tags)
     do_work(tail)
   end
 
