@@ -12,17 +12,5 @@ defmodule SAS do
   def start(_, _) do
     IO.puts "starting"
     SAS.Supervisor.start_link(name: ServiceSupervisor)
-
-    subreddit = "askreddit"
-    SAS.Subreddit.Supervisor.add_subreddit(subreddit)
-
-    SAS.Tags.Server.add_user_tags(subreddit, "matt", ["who"])
-
-    :timer.sleep(20000)
-
-    IO.puts("adding more tags")
-    SAS.Tags.Server.add_user_tags(subreddit, "matt", ["why", "what", "who"])
-
-    :timer.sleep(1000000)
   end
 end

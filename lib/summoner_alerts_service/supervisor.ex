@@ -9,7 +9,8 @@ defmodule SAS.Supervisor do
     children = [
       SAS.Tags.Supervisor,
       SAS.Subreddit.Supervisor,
-      SAS.Repo
+      SAS.Repo,
+      worker(SAS.TagWatcher.Server, [])
       # {SAS.StickyServer, name: StickyServer},
       # {SAS.StickyThreadFinderServer, name: StickyThreadFinderServer},
     ]
